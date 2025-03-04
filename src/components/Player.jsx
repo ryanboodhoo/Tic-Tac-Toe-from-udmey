@@ -5,39 +5,29 @@ export default function Player({ initialName, symbol, isActive, onChangeName }) 
   const [isEditing, setIsEditing] = useState(false);
 
   function handleEditClick() {
-    setIsEditing((editing) => !editing);
-    onChangeName(symbol,playerName);
-
-    if (isEditing){
-      onChangeName={symbol,playerName};
+    if (isEditing) {
+      onChangeName(symbol, playerName);
     }
+    setIsEditing((editing) => !editing);
   }
 
   function handleNameChange(event) {
     setPlayerName(event.target.value);
   }
 
-  let editablePlayerName = <span className="player-name">{playerName}</span>;
-  if (isEditing) {
-    editablePlayerName = (
-      <input
-        type="text"
-        required
-        value={playerName}
-        onChange={handleNameChange}
-      />
-    );
-  }
-
   return (
-    <div className={isActive ? `active` : undefined}>
-      <span className="player">
-        {editablePlayerName}
+    <li className={isActive ? "active" : ""}>
+      <div className="player">
+        {isEditing ? (
+          <input type="text" required value={playerName} onChange={handleNameChange} />
+        ) : (
+          <span className="player-name">{playerName}</span>
+        )}
         <span className="player-symbol">{symbol}</span>
-      </span>
+      </div>
       <button onClick={handleEditClick}>
         {isEditing ? "Save" : "Edit Player Name"}
       </button>
-    </div>
+    </li>
   );
 }
